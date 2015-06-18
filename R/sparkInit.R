@@ -1,0 +1,5 @@
+Sys.setenv(SPARK_HOME="/Users/vmandal/tools/spark")
+.libPaths(c(file.path(Sys.getenv("SPARK_HOME"), "R", "lib"), .libPaths()))
+library(SparkR)
+sc <- sparkR.init()
+sqlContext <- sparkRSQL.init(sc)
