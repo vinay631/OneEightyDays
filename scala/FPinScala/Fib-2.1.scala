@@ -1,4 +1,5 @@
 object Fibo extends App {
+
     def fib(n: Int):Int = 
       n match {
         case 1 => 0
