@@ -9,9 +9,14 @@ object List {
         if (as.isEmpty) Nil
         else Cons(as.head, apply(as.tail: _*))
 
-    #FP Exercise 3.2
+    //FP Exercise 3.2
     def tail[A](as: List[A]): List[A] = as match {
         case Nil => Nil
         case Cons(x, xs) => xs
+    }
+
+    //FP Exercist 3.3
+    def setHead[A](a: A, as: List[A]): List[A] = {
+        return Cons(a, as) 
     }
 }
