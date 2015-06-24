@@ -19,4 +19,11 @@ object List {
     def setHead[A](a: A, as: List[A]): List[A] = {
         return Cons(a, as) 
     }
+
+    //FP Exercise 3.4
+    def drop[A](l: List[A], n: Int): List[A] = n match {
+        case 0 => l
+        case n if n < 0 => l
+        case _ => drop(tail(l), n-1)
+    }
 }
