@@ -39,4 +39,16 @@ object List {
         case Cons(x, xs) => Cons(x, init(xs))
         case Nil => ???
     }
+    
+    //FoldRight
+    def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+        as match {
+            case Nil => z
+            case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+
+    //length Exercise 3.9
+    def length[A](as: List[A]): Int = {
+        foldRight(as, 0)((_, y) => y + 1)
+    }
 }
