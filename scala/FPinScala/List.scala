@@ -62,4 +62,19 @@ object List {
         }
         fold(as, z)
     }
+
+    //Sum 3.11
+    def sum(as: List[Int]) = {
+        foldLeft(as, 0)(_+_)
+    }
+
+    //Product 3.11
+    def product(as: List[Int]) = {
+        foldLeft(as, 1)(_*_) 
+    }
+
+    //Length 3.11
+    def length2[A](as: List[A]):Int = {
+        foldLeft(as, 0)((y, _) => y + 1)
+    }
 }
