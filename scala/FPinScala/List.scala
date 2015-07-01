@@ -78,8 +78,13 @@ object List {
         foldLeft(as, 0)((y, _) => y + 1)
     }
 
-    //Reverse 3.12
+    //Reverse 3.12 - Not sure if it is right
     def reverse[A](as: List[A]):List[A] = {
         foldLeft(as, List[A]())((y, x) => Cons(x, y))
+    }
+
+    //3.14
+    def append[A](as: List[A], elem: A):List[A] = {
+        foldRight(as, List[A](elem))((x, y) => Cons(x, y))
     }
 }
