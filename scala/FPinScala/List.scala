@@ -87,4 +87,12 @@ object List {
     def append[A](as: List[A], elem: A):List[A] = {
         foldRight(as, List[A](elem))((x, y) => Cons(x, y))
     }
+
+    //3.16
+    def add(l: List[Int]):List[Int] = l match {
+        case Nil => Nil
+        case Cons(x, xs) => Cons(x+1, add(xs))
+    }
+
+
 }
