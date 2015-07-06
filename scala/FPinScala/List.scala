@@ -94,5 +94,24 @@ object List {
         case Cons(x, xs) => Cons(x+1, add(xs))
     }
 
+    //3.17
+    def stringConverter(l: List[Double]):List[String] = l match {
+        case Nil => Nil
+        case Cons(x, xs) => Cons(x.toString, stringConverter(xs))
+    }
+
+    //3.18
+    def map[A, B](l: List[A])(f: A => B):List[B] = l match {
+        case Nil => Nil
+        case Cons(x, xs) => Cons(f(x), map(xs)(f))
+    }
+
+    //3.19
+    def filter[A](l:List[A])(f: A => Boolean):List[A] = l match {
+        case Nil => Nil
+        case Cons(x, xs) if f(x) => Cons(x, filter(xs)(f))
+        case _ => filter(tail(l))(f)
+    }
+
 
 }
