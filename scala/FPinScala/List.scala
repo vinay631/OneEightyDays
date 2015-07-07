@@ -113,5 +113,20 @@ object List {
         case _ => filter(tail(l))(f)
     }
 
+    def concatLists[A](l1:List[A], l2:List[A]):List[A] = l1 match {
+        case Nil => l2
+        case Cons(h, t) => Cons(h, concatLists(t, l2))
+    
+    }
+
+    def flattenList[A](l: List[List[A]]):List[A] = {
+        foldRight(l, Nil:List[A])(concatLists)
+    }
+
+    //3.20
+    def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+        flattenList(map(as)(f))
+    }
+
 
 }
