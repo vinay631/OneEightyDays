@@ -128,5 +128,10 @@ object List {
         flattenList(map(as)(f))
     }
 
+    //3.21
+    def filterFlatMap[A](l: List[A])(f: A => Boolean):List[A] = {
+        flatMap(l)(a => if (f(a)) List(a) else Nil)
+    }
+        
 
 }
