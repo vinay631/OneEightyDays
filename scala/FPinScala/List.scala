@@ -132,6 +132,14 @@ object List {
     def filterFlatMap[A](l: List[A])(f: A => Boolean):List[A] = {
         flatMap(l)(a => if (f(a)) List(a) else Nil)
     }
+
+    def listAdd(a: List[Int], b: List[Int]):List[Int] = (a, b) match {
+        case (Nil, Nil) => Nil
+        case (Cons(h, t), Nil) => Cons(h, t)
+        case (Nil, Cons(h, t)) => Cons(h, t)
+        case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, listAdd(t1, t2))
+    
+    }
         
 
 }
