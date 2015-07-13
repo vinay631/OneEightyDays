@@ -7,4 +7,9 @@ object Tree{
         case Leaf(_) => 1
         case Branch(l, r) => 1 + size(l) + size(r)
     }
+
+    def maximum(tree:Tree[Int]):Int = tree match {
+        case Leaf(value:Int) => value
+        case Branch(l, r) => maximum(l) max maximum(r)
+    }
 }
