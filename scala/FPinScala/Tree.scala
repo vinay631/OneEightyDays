@@ -15,12 +15,29 @@ object Tree{
 
     def depth[A](tree: Tree[A]):Int = tree match {
         case Leaf(_) => 1
-        case Branch(l, r) => depth(l) max depth(r)
+        case Branch(l, r) => 1 + depth(l) max depth(r)
     
     }
 
     def map[A, B](tree: Tree[A])(f: A => B):Tree[B] = tree match {
         case Leaf(a) => Leaf(f(a))
         case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+    }
+
+    def fold[A, B](tree: Tree[A])(f: A => B) (g: (B, B) => B):B = tree match {
+        case Leaf(a) => f(a)
+        case Branch(l, r) => g(fold(l)(f)(g), fold(r)(f)(g))
+    }
+
+    def sizeWithFold[A](tree: Tree[A]):Int = {
+        fold(tree)(a => 1)((l, r) => 1 + l + r)
+    }
+
+    def maxWithFold(tree: Tree[Int]):Int = {
+        fold(tree)(a => a)(_ max _)
+    }
+
+    def depthWithFold[A](tree: Tree[A]):Int = {
+        fold(tree)(_ => 1)(1 + _ max _)
     }
 }
