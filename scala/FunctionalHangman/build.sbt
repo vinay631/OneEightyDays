@@ -10,6 +10,8 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
+  "com.lihaoyi" %% "upickle" % "0.3.4",
+  "org.scala-lang.modules" %% "scala-pickling" % "0.10.1",
   "org.specs2" %% "specs2" % "2.4.2" withSources()
 )
 

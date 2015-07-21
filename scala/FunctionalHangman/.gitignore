@@ -5,3 +5,8 @@ target
 tmp
 dist
 .cache
+/bin
+.classpath
+.project
+.settings
+.worksheet
