@@ -19,14 +19,21 @@ object HangmanController extends Controller {
     
     val sessionName = "Hangman"
 
-    val wordList = Source.fromInputStream(getClass.getResourceAsStream("/public/text/words.txt"))
-    					 .getLines.toList
+    //val wordList = Source.fromInputStream(getClass.getResourceAsStream("/public/text/words.txt"))
+    //					 .getLines.toList
+    					 
+    val wordList = Source.fromFile("/usr/share/dict/words")
+    		.getLines.toList.filter(word => (word.length > 5 && word.forall(Character.isLetter)))
+    					 
+    def index = Action { implicit request =>
+	    Ok("Hello!")
+	  }
     
-    def start(level: Int) = Action { implicit request => 
+    /**def start(level: Int) = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
     	val game = Hangman(gameWord, level)
     	Ok(game.maskedWord).withSession(sessionName -> write(game))
-    }
+    }**/
 
 
 }
