@@ -26,14 +26,15 @@ object HangmanController extends Controller {
     		.getLines.toList.filter(word => (word.length > 5 && word.forall(Character.isLetter)))
     					 
     def index = Action { implicit request =>
-	    Ok("Hello!")
+	    Ok("Welcome!")
 	  }
     
-    /**def start(level: Int) = Action { implicit request => 
+    def start(level: Int) = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
     	val game = Hangman(gameWord, level)
+    	println(write(game))
     	Ok(game.maskedWord).withSession(sessionName -> write(game))
-    }**/
+    }
 
 
 }

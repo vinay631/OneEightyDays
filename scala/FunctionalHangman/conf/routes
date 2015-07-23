@@ -6,3 +6,4 @@
 
 # Map static resources from the /public folder to the /assets URL path
 GET   /                     controllers.HangmanController.index
+GET   /start/:level				controllers.HangmanController.start(level: Int)
