@@ -1,0 +1,26 @@
+---
+title: "CalendarHeatVisualization"
+author: "Vinay Mandal"
+date: "July 25, 2015"
+output: html_document
+---
+
+I will be following tutorial from flowing data to generate "Calendar Heatmaps" for daily percent change in AAPL stock since 1981. I downloaded the dataset for this visualization from [Quandl](https://www.quandl.com/help/api)
+
+```{r}
+df <- read.csv('data/WIKI-AAPL.csv', header = T)
+```
+
+First few rows of the data look like this:
+
+```{r, echo=FALSE}
+head(df)
+```
+
+Now we are going to calculate the daily percentage changes in the stock price. We will use the opening and closing price of the stock to calculate this.
+
+```{r}
+df['Change_pct'] <- abs(df['Open'] - df['Close'])/df['Close']
+
+head(df)
+```

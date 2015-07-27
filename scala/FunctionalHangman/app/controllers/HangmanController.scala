@@ -33,9 +33,20 @@ object HangmanController extends Controller {
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
     	val game = Hangman(gameWord, level)
     	println(write(game))
-    	Ok(game.maskedWord).withSession(sessionName -> write(game))
+    	Ok(game.maskedWord).withSession(writeSession(write(game)))
     }
-
+    
+    private def writeSession(value: String)(implicit request: RequestHeader) = {
+    	request.session + (sessionName -> value)
+    }
+    
+    private def readSession(implicit request: RequestHeader): Option[Hangman] = {
+	    request.session.get(sessionName).map{ hangman =>
+	    	read[Hangman](hangman)
+	    }
+    }
+    
+   
 
 }
 
