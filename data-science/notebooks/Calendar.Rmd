@@ -5,7 +5,7 @@ date: "July 25, 2015"
 output: html_document
 ---
 
-I will be following tutorial from flowing data to generate "Calendar Heatmaps" for daily percent change in AAPL stock since 1981. I downloaded the dataset for this visualization from [Quandl](https://www.quandl.com/help/api)
+I will be following tutorial from flowing data to generate "Calendar Heatmaps" for daily percent change in AAPL stock since 1981. I downloaded the dataset for this visualization from [Quandl](https://www.quandl.com/help/api).
 
 ```{r}
 df <- read.csv('data/WIKI-AAPL.csv', header = T)
@@ -20,7 +20,31 @@ head(df)
 Now we are going to calculate the daily percentage changes in the stock price. We will use the opening and closing price of the stock to calculate this.
 
 ```{r}
-df['Change_pct'] <- abs(df['Open'] - df['Close'])/df['Close']
-
+df['Change_pct'] <- (df['Open'] - df['Close'])*100/df['Close']
+df$date = as.Date(df$Date, "%Y-%m-%d")
 head(df)
+```
+
+Since AAPL stock was publicly listed on 1980-12-12, we will pad the earlier dates in 1981 with "no change" (0) value. We do the same for rest of the 2015 dates.
+
+```{r}
+library(lubridate)
+mindate <- as.Date(sprintf("%s-01-01", as.character(year(min(df$date)))))
+maxdate <- as.Date(sprintf("%s-12-31", as.character(year(max(df$date)))))
+allDates <- data.frame(date=seq.Date(mindate, maxdate, by="day"))
+dfnew <- merge(df, allDates, by='date', all=TRUE)
+dfnew['Change_pct'][is.na(dfnew['Change_pct'])] <- 0
+```
+Next, we are going to plot the calendar. First we will source the calendar code by Nathan Yau. I have made some minor modifications to it - nothing too fancy though. I have also created a function which plots a single year heatmap. We will use sapply to iterate over years and apply this function to plot the heatmap
+```{r}
+source('./calendarCustom.R')
+
+plotSingle <- function(yr, df) {
+  dfsubset <- subset(df, year(date) == yr)
+  calendarFlow(dfsubset$date, dfsubset$Change_pct, palette="redgreen", main=toString(yr))
+}
+
+years <- seq(1980, 2015, 1)
+par(mfrow = c(12, 3), oma=c(1, 1, 0, 1), mar=c(0, 0, 0, 0))
+invisible(sapply(years, plotSingle, df=dfnew))
 ```
