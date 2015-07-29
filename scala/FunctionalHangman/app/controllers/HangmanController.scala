@@ -26,8 +26,8 @@ object HangmanController extends Controller {
     		.getLines.toList.filter(word => (word.length > 5 && word.forall(Character.isLetter)))
     					 
     def index = Action { implicit request =>
-	    Ok("Welcome!")
-	  }
+    	Ok(views.html.hangman(readSession))
+	}
     
     def start(level: Int) = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
@@ -46,7 +46,14 @@ object HangmanController extends Controller {
 	    }
     }
     
-   
-
+    def guess(g: String) = Action { implicit request =>
+	    readSession.map{ hangman =>
+	      val lowGuess = g.toUpperCase()(0)
+	      val misses = if(hangman.word.contains(lowGuess)) hangman.misses else hangman.misses + 1
+	      val updatedGame = hangman.copy(guesses = hangman.guesses :+lowGuess, misses = misses)
+	      val value = write(updatedGame)
+	      Ok(updatedGame.maskedWord).withSession(writeSession(value))
+	    }.getOrElse(BadRequest)
+	}
 }
 
