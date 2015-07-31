@@ -1,10 +1,10 @@
 package models
 
-case class Hangman(word: String, level: Int = 0, guesses: List[Char] = Nil,
+case class Hangman(word: String, level: Int = 9, guesses: List[Char] = Nil,
                    misses: Int = 0)
 {
     
-    def gameOver = won || (level < misses)
+    def gameOver = won || (level <= misses)
 
     def won = word forall guesses.contains
 

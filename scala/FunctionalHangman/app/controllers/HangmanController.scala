@@ -18,10 +18,8 @@ object HangmanController extends Controller {
     val rand = new Random()
     
     val sessionName = "Hangman"
-
-    //val wordList = Source.fromInputStream(getClass.getResourceAsStream("/public/text/words.txt"))
-    //					 .getLines.toList
     					 
+    //Need to figure out where to put this file
     val wordList = Source.fromFile("/usr/share/dict/words")
     		.getLines.toList.filter(word => (word.length > 5 && word.forall(Character.isLetter)))
     					 
@@ -29,10 +27,10 @@ object HangmanController extends Controller {
     	Ok(views.html.hangman(readSession))
 	}
     
-    def start(level: Int) = Action { implicit request => 
+    def start = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
-    	val game = Hangman(gameWord, level)
-    	println(write(game))
+    	val game = Hangman(gameWord)
+    	//println(write(game))
     	Ok(game.maskedWord).withSession(writeSession(write(game)))
     }
     
@@ -51,8 +49,16 @@ object HangmanController extends Controller {
 	      val lowGuess = g.toUpperCase()(0)
 	      val misses = if(hangman.word.contains(lowGuess)) hangman.misses else hangman.misses + 1
 	      val updatedGame = hangman.copy(guesses = hangman.guesses :+lowGuess, misses = misses)
-	      val value = write(updatedGame)
-	      Ok(updatedGame.maskedWord).withSession(writeSession(value))
+	      if (updatedGame.won) {
+	        Ok("You Won!").withNewSession
+	      } else {
+	        if (updatedGame.gameOver) {
+	          Ok("You Lost!").withNewSession
+	        } else {
+	          val value = write(updatedGame)
+	          Ok(updatedGame.maskedWord).withSession(writeSession(value))
+	        }
+	      }
 	    }.getOrElse(BadRequest)
 	}
 }
