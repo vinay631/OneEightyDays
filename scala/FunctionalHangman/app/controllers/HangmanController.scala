@@ -30,7 +30,7 @@ object HangmanController extends Controller {
     def start = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
     	val game = Hangman(gameWord)
-    	Ok(game.maskedWord).withSession(writeSession(write(game)))
+    	Ok(views.html.game(Some(game))).withSession(writeSession(write(game)))
     }
     
     private def writeSession(value: String)(implicit request: RequestHeader) = {
@@ -55,7 +55,7 @@ object HangmanController extends Controller {
 	          Ok("You Lost!").withNewSession
 	        } else {
 	          val value = write(updatedGame)
-	          Ok(updatedGame.maskedWord).withSession(writeSession(value))
+	          Ok(views.html.game(Some(updatedGame))).withSession(writeSession(value))
 	        }
 	      }
 	    }.getOrElse(BadRequest)

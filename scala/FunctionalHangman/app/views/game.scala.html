@@ -2,8 +2,8 @@
 @*
 TODO: Find the way to pass object to javascript
 *@
-@main("Hangman"){
-    <script>
-        example.HangmanJS().main ()
-    </script>
-}
+Puzzle State:
+@{hangman match {
+	case None => "No game could be constructed!"
+	case Some(game) => game.maskedWord
+}}
