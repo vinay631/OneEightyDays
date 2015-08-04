@@ -30,7 +30,6 @@ object HangmanController extends Controller {
     def start = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
     	val game = Hangman(gameWord)
-    	//println(write(game))
     	Ok(game.maskedWord).withSession(writeSession(write(game)))
     }
     
