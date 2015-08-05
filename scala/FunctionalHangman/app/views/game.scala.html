@@ -7,3 +7,14 @@ Puzzle State:
 	case None => "No game could be constructed!"
 	case Some(game) => game.maskedWord
 }}
+
+@*helper.form(action = controllers.HangmanController.guessSubmit) {
+    First name:<input type="text" name="guess"><br>
+}
+
+*@
+
+<form method="post" autocomplete="on">
+      Guess:<input type="text" name="guess"><br>
+      <input type="submit">
+</form>

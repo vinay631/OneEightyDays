@@ -1,17 +1,19 @@
 package controllers
 
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json._
-import play.api.libs.json.Reads._
-import play.api.libs.functional.syntax._
-import play.api.mvc._
-import scala.concurrent.Future
-import models.Hangman
-
-import upickle.default._
-
 import scala.io.Source
 import scala.util.Random
+
+import models.Hangman
+import play.api.data.Form
+import play.api.data.Forms.nonEmptyText
+import play.api.data.Forms.single
+import play.api.mvc.Action
+import play.api.mvc.Controller
+import play.api.mvc.RequestHeader
+import upickle.default.macroR
+import upickle.default.macroW
+import upickle.default.read
+import upickle.default.write
 
 object HangmanController extends Controller {
 
@@ -41,6 +43,30 @@ object HangmanController extends Controller {
 	    request.session.get(sessionName).map{ hangman =>
 	    	read[Hangman](hangman)
 	    }
+    }
+    
+    val guessForm = Form(
+    	single(
+    		"guess" -> nonEmptyText 
+    	)
+    )
+    
+    def guessSubmit = Action { implicit request =>
+      readSession.map{ hangman =>
+    	val lowGuess =  guessForm.bindFromRequest.get.toUpperCase()(0)
+    	val misses = if(hangman.word.contains(lowGuess)) hangman.misses else hangman.misses + 1
+	      val updatedGame = hangman.copy(guesses = hangman.guesses :+lowGuess, misses = misses)
+	      if (updatedGame.won) {
+	        Ok("You Won!").withNewSession
+	      } else {
+	        if (updatedGame.gameOver) {
+	          Ok("You Lost!").withNewSession
+	        } else {
+	          val value = write(updatedGame)
+	          Ok(views.html.game(Some(updatedGame))).withSession(writeSession(value))
+	        }
+	      }
+	    }.getOrElse(BadRequest)	
     }
     
     def guess(g: String) = Action { implicit request =>
