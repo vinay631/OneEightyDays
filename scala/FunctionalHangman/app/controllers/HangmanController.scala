@@ -86,5 +86,12 @@ object HangmanController extends Controller {
 	      }
 	    }.getOrElse(BadRequest)
 	}
+    
+    def giveUp() = Action { implicit request =>
+    	readSession.map{ hangman =>
+    	  	Ok("Here is the word : " + hangman.word) withNewSession
+    	}.getOrElse(BadRequest)
+    
+    }
 }
 

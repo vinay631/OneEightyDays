@@ -8,4 +8,5 @@
 GET   /                     controllers.HangmanController.index
 GET   /start			    controllers.HangmanController.start
 GET   /guess/:g				controllers.HangmanController.guess(g: String)
-POST  /start 					controllers.HangmanController.guessSubmit
+POST  /start 				controllers.HangmanController.guessSubmit
+GET   /giveup				controllers.HangmanController.giveUp
