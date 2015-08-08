@@ -1,9 +1,6 @@
-@(hangman: Option[models.Hangman])(implicit request: RequestHeader)
+@(message: String)(implicit request: RequestHeader)
 @*
 TODO: Find the way to pass object to javascript
 *@
-@main("Hangman"){
-    <script>
-        example.HangmanJS().main ()
-    </script>
-}
+@message
+<a href="@routes.HangmanController.start()"><button>Start Game!</button></a>

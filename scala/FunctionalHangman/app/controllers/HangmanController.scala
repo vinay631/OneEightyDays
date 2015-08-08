@@ -26,7 +26,7 @@ object HangmanController extends Controller {
     		.getLines.toList.filter(word => (word.length > 5 && word.forall(Character.isLetter)))
     					 
     def index = Action { implicit request =>
-    	Ok(views.html.hangman(readSession))
+    	Ok(views.html.hangman("Welcome to Hangman!"))
 	}
     
     def start = Action { implicit request => 
@@ -89,7 +89,7 @@ object HangmanController extends Controller {
     
     def giveUp() = Action { implicit request =>
     	readSession.map{ hangman =>
-    	  	Ok("Here is the word : " + hangman.word) withNewSession
+    	  	Ok(views.html.hangman("Here is the word : " + hangman.word)) withNewSession
     	}.getOrElse(BadRequest)
     
     }
