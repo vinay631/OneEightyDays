@@ -20,7 +20,7 @@
     var engine = Engine.create(document.body, { 
         render: {
             options: {
-                background: 'img/ground.png',
+                background: 'img/background.png',
                 wireframes: false
             }
         }
@@ -30,14 +30,15 @@
         constraint: { stiffness: 1 }
     });
 
-    var ground = Bodies.rectangle(395, 600, 815, 50, { 
+    var ground = Bodies.rectangle(0, 600, 2000, 40, { 
         isStatic: true, 
         render: { 
-          visible: false 
+            fillStyle: '#4DBD33',
+            strokeStyle: '#4DBD33'
         } 
     });
 
-    var cannon = Bodies.rectangle(170, 407, 8, 20, {
+    var cannon = Bodies.rectangle(170, 550, 8, 20, {
         isStatic: true,
         render: {
             sprite: {
