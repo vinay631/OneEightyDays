@@ -11,11 +11,14 @@
     var Engine = Matter.Engine,
         World = Matter.World,
         Bodies = Matter.Bodies,
+        Body = Matter.Body,
         Constraint = Matter.Constraint,
         Composites = Matter.Composites,
         MouseConstraint = Matter.MouseConstraint,
         Events = Matter.Events;
     //background: 'http://brm.io/matter-js-demo/img/background.png',
+
+    var currentAngle = -15
 
     var engine = Engine.create(document.body, { 
         render: {
@@ -95,10 +98,22 @@
     World.add(engine.world, [mouse, ground, cannon]);
 
     Events.on(engine, 'tick', function(event) {
+
+        if (currentAngle >= 15){
+            currentAngle = 60;
+        }
+        else {
+            currentAngle += 5;
+            console.log(currentAngle)
+            Body.rotate(cannon, currentAngle);
+        }
         if (engine.input.mouse.button === -1 && (rock.position.x > 190 || rock.position.y < 430)) {
             rock = Bodies.polygon(170, 450, 7, 20, rockOptions);
             World.add(engine.world, rock);
             elastic.bodyB = rock;
+        }
+        if (typeof event != 'undefined' && event.keyCode == '38') {
+            console.log("up arrow key pressed");
         }
     });
 
