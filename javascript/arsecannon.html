@@ -105,7 +105,7 @@
         else {
             currentAngle += 5;
             console.log(currentAngle)
-            Body.rotate(cannon, currentAngle);
+            //Body.rotate(cannon, currentAngle);
         }
         if (engine.input.mouse.button === -1 && (rock.position.x > 190 || rock.position.y < 430)) {
             rock = Bodies.polygon(170, 450, 7, 20, rockOptions);

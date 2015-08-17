@@ -2,3 +2,5 @@
 .ipynb_checkpoints/*
 .Rhistory
 .DS_Store
+yelpDataChallenge/dataset-examples/*
+yelpDataChallenge/data/*
