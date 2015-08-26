@@ -10,3 +10,4 @@ GET   /start			    controllers.HangmanController.start
 GET   /guess/:g				controllers.HangmanController.guess(g: String)
 POST  /start 				controllers.HangmanController.guessSubmit
 GET   /giveup				controllers.HangmanController.giveUp
+GET   /webjars/*file 		controllers.WebJarAssets.at(file)
