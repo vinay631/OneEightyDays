@@ -1,13 +1,17 @@
 @(title: String)(content: Html)
-
 <!DOCTYPE html>
-
-<html lang="en">
-    <head>
-        <title>@title</title>
-        
-    </head>
-    <body>
-        @content
-    </body>
+<html>
+<head>
+	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.fullPath("react", "react.js"))'></script>
+    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("JSXTransformer.js"))'></script>
+	<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/skeleton/skeleton.css")">
+	<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/skeleton/normalize.css")">
+	<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/skeleton/custom.css")">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  	<title>@title</title>
+</head>
+<body>
+<section class="content">@content</section>
+</body>
 </html>
