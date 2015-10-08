@@ -419,6 +419,12 @@ there.
 
 /* Image Resizing
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.img-80x {
+	width:auto;
+    max-width:80%;
+    height:auto;
+ }
+ 
 .img-75x {
 	width:auto;
     max-width:75%;
