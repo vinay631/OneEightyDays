@@ -7,6 +7,7 @@ import models.Hangman
 import play.api.data.Form
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Forms.single
+import play.api.libs.json._
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.RequestHeader
@@ -31,8 +32,10 @@ object HangmanController extends Controller {
     
     def start = Action { implicit request => 
     	val gameWord = wordList(rand.nextInt(wordList.size)).toUpperCase
+    	println(gameWord)
     	val game = Hangman(gameWord)
-    	Ok(views.html.game(Some(game))).withSession(writeSession(write(game)))
+    	val returnJson = getReturnJson(game, "Starting...")
+		Ok(returnJson).withSession(writeSession(write(game)))
     }
     
     private def writeSession(value: String)(implicit request: RequestHeader) = {
@@ -57,13 +60,18 @@ object HangmanController extends Controller {
     	val misses = if(hangman.word.contains(lowGuess)) hangman.misses else hangman.misses + 1
 	      val updatedGame = hangman.copy(guesses = hangman.guesses :+lowGuess, misses = misses)
 	      if (updatedGame.won) {
-	        Ok("You Won!").withNewSession
+	        val returnJson = getReturnJson(updatedGame, "You Won!")
+	        Ok(returnJson).withNewSession
 	      } else {
 	        if (updatedGame.gameOver) {
-	          Ok("You Lost!").withNewSession
+	          val returnJson = getReturnJson(updatedGame, "You Lost!")
+	          println(returnJson)
+	          Ok(returnJson).withNewSession
 	        } else {
 	          val value = write(updatedGame)
-	          Ok(views.html.game(Some(updatedGame))).withSession(writeSession(value))
+	          
+		      val returnJson = getReturnJson(updatedGame, "")
+	          Ok(returnJson).withSession(writeSession(value))
 	        }
 	      }
 	    }.getOrElse(BadRequest)	
@@ -75,13 +83,16 @@ object HangmanController extends Controller {
 	      val misses = if(hangman.word.contains(lowGuess)) hangman.misses else hangman.misses + 1
 	      val updatedGame = hangman.copy(guesses = hangman.guesses :+lowGuess, misses = misses)
 	      if (updatedGame.won) {
-	        Ok("You Won!").withNewSession
+	        val returnJson = getReturnJson(updatedGame, "You Won!",isWon=true, isLost=false)
+	        Ok(returnJson).withNewSession
 	      } else {
 	        if (updatedGame.gameOver) {
-	          Ok("You Lost!").withNewSession
+	          val returnJson = getReturnJson(updatedGame, "You Lost!",isLost=true, isWon=false)
+	          Ok(returnJson).withNewSession
 	        } else {
 	          val value = write(updatedGame)
-	          Ok(views.html.game(Some(updatedGame))).withSession(writeSession(value))
+	          val returnJson = getReturnJson(updatedGame, "")
+	          Ok(returnJson).withSession(writeSession(value))
 	        }
 	      }
 	    }.getOrElse(BadRequest)
@@ -89,9 +100,22 @@ object HangmanController extends Controller {
     
     def giveUp() = Action { implicit request =>
     	readSession.map{ hangman =>
-    	  	Ok(views.html.hangman("Here is the word : " + hangman.word)) withNewSession
+    	  val returnJson = getReturnJson(hangman, "Here is the word : " + hangman.word)
+    	  Ok(returnJson) withNewSession
     	}.getOrElse(BadRequest)
     
+    }
+    
+    def getReturnJson(game: Hangman, message: String, isWon: Boolean=false, isLost: Boolean=false) = {
+      val returnJson = Json.obj(
+		    "word" -> game.maskedWord,
+		    "misses" -> game.misses ,
+		    "message" -> message,
+		    "won" -> isWon,
+		    "lost" -> isLost
+		)
+		
+	  returnJson
     }
 }
 

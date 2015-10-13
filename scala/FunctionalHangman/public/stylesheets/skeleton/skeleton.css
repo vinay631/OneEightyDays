@@ -75,6 +75,9 @@
 
   .one-third.column               { width: 30.6666666667%; }
   .two-thirds.column              { width: 65.3333333333%; }
+    
+  .one-fourth.column              {width: 24%;}
+  .three-fourths.column           {width: 72%;}
 
   .one-half.column                { width: 48%; }
   .one-half.column.bottom         { position: relative; vertical-align: bottom; }
@@ -369,6 +372,9 @@ form {
   float: right; }
 .u-pull-left {
   float: left; }
+.u-half-width {
+    width: 50%;
+    box-sizing: border-box; }
 
 
 /* Misc
@@ -431,9 +437,9 @@ there.
     height:auto;
  }
  
- .img-50x {
+ .img-60x {
 	width:auto;
-    max-width:40%;
+    max-width:60%;
     vertical-align: bottom;
     bottom: 0;
     height:auto;
@@ -450,3 +456,35 @@ there.
  .bottom {
  	vertical-align: bottom;
  }
+
+/* Keyboard button
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+button.light, .light-keys button, .button.light, button.lght-keys {
+	background: rgb(250, 250, 250);
+	background: -moz-linear-gradient(top, rgb(210, 210, 210), rgb(255, 255, 255));
+	background: -webkit-gradient(linear, left top, left bottom, from(rgb(210, 210, 210)), to(rgb(255, 255, 255)));
+	color:  rgb(50, 50, 50);
+	text-shadow: 0 0 2px rgb(255, 255, 255);
+	-moz-box-shadow: inset 0 0 1px rgb(255, 255, 255), inset 0 0 .4em rgb(200, 200, 200), 0 .1em 0 rgb(130, 130, 130), 0 .11em 0 rgba(0, 0, 0, .4), 0 .1em .11em rgba(0, 0, 0, .9);
+	-webkit-box-shadow: inset 0 0 1px rgb(255, 255, 255), inset 0 0 .4em rgb(200, 200, 200), 0 .1em 0 rgb(130, 130, 130), 0 .11em 0 rgba(0, 0, 0, .4), 0 .1em .11em rgba(0, 0, 0, .9);
+	box-shadow: inset 0 0 1px rgb(255, 255, 255), inset 0 0 .4em rgb(200, 200, 200), 0 .1em 0 rgb(130, 130, 130), 0 .11em 0 rgba(0, 0, 0, .4), 0 .1em .11em rgba(0, 0, 0, .9);
+}
+
+button, .keys {
+	display: inline-block;
+	min-width: 2em;
+    max-height: 2em;
+	padding: .3em .4em;
+	text-align: center;
+	text-decoration: none;
+	-moz-border-radius: .3em;
+	-webkit-border-radius: .3em;
+	border-radius: .3em;
+	border: none;
+	cursor: default;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+

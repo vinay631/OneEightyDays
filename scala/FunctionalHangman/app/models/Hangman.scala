@@ -1,6 +1,6 @@
 package models
 
-case class Hangman(word: String, level: Int = 9, guesses: List[Char] = Nil,
+case class Hangman(word: String, level: Int = 7, guesses: List[Char] = Nil,
                    misses: Int = 0)
 {
     
